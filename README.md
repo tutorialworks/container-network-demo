@@ -6,6 +6,12 @@ The application itself is a simple Node.js application that uses the [Express](h
 
 The database is populated with a few sample addresses in the file `db/init.sql`. Feel free to add your own addresses to the database before running the instructions below, and see if they show up in the API response!
 
+## Architecture
+
+This diagram shows the architecture of this demo - an application and a database, and a third container for testing, all joined to the same bridge network.
+
+<img src="./architecture.png">
+
 ## To run
 
 **Pre-requisites:** You must have Docker installed on your machine.
