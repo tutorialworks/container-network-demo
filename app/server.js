@@ -5,11 +5,11 @@ const app = express();
 const port = 8080;
 
 const config = {
-  user: 'addressapp',
-  password: 'password123',
-  host: 'address-db',
-  port: 5432,
-  database: 'addressapp',
+  host: process.env.DB_HOST || 'address-db',
+  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER || 'addressapp',
+  password: process.env.DB_PASSWORD || 'password123',
+  database: process.env.DB_NAME || 'addressapp'
 };
 
 const pool = new pg.Pool(config);
