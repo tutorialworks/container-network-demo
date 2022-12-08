@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  address-api:
+    image: address-api
+    build:
+      context: app/
+      dockerfile: Dockerfile
+    depends_on:
+      - address-db
+
+  address-db:
+    image: address-db
+    build:
+      context: db/
+      dockerfile: Dockerfile
