@@ -1,4 +1,4 @@
-# docker-network-demo
+# container-network-demo
 
 **A demo of joining two Docker containers to a network.** This demo involves two containers, one for an application and one for a database. Both containers are joined to a _user-defined bridge network_, and the application container fetches data from the database.
 
@@ -9,7 +9,7 @@ The application itself is a simple Node.js application that uses the [Express](h
 To try out this demo, first build the images:
 
 ```bash
-docker build -t address-book app
+docker build -t address-api app
 
 docker build -t address-db db
 ```
@@ -21,20 +21,21 @@ docker network create address-app
 
 docker run -d --name address-db --network address-app address-db:latest
 
-docker run -d --name address-book --network address-app address-book:latest
+docker run -d --name address-api --network address-app address-api:latest
 ```
 
-Now you can test the application from another container; we'll use an Alpine Linux container for this:
+Now you can test the application from another container; we'll use an [Alpine Linux][alpine] container for this:
 
 ```bash
 docker run -it --rm --network address-app alpine:latest
 ```
 
-Then inside the Alpine container, install the **curl** command, and use it to test the API:
+Then, **inside the Alpine container,** install the **curl** command, and use it to test the API:
 
 ```bash
 apk add --no-cache curl
-curl address-book:3000/addresses
+
+curl address-api:3000/addresses
 ```
 
 You should see output like this, which proves that the application container has successfully fetched data from the database container:
@@ -46,11 +47,15 @@ You should see output like this, which proves that the application container has
 ## Cleanup
 
 ```bash
-$ docker stop address-book address-db
-$ docker rm address-book address-db
-$ docker network rm address-app
+docker stop address-api address-db
+
+docker rm address-api address-db
+
+docker network rm address-app
 ```
 
 ## License
 
 MIT
+
+[alpine]: https://alpinelinux.org/
