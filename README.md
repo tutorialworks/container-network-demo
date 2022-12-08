@@ -1,10 +1,14 @@
 # container-network-demo
 
-**A demo of joining two Docker containers to a network.** This demo involves two containers, one for an application and one for a database. Both containers are joined to a _user-defined bridge network_, and the application container fetches data from the database.
+**A demo of joining two Docker containers to a network.** This demo involves two containers, one for an application and one for a database. Both containers are joined to the same [user-defined bridge network][bridge], so that the application container can fetch data from the database.
 
-The application itself is a simple Node.js application that uses the [Express](https://expressjs.com/) framework. It exposes a REST API at `localhost:8080/addresses` that fetches a list of addresses from the Postgresql database.
+The application itself is a simple Node.js application that uses the [Express](https://expressjs.com/) framework. It exposes a REST API at `localhost:8080/addresses` that fetches a list of addresses from the Postgresql database. 
+
+The database is populated with a few sample addresses in the file `db/init.sql`. Feel free to add your own addresses to the database before running the instructions below, and see if they show up in the API response!
 
 ## To run
+
+**Pre-requisites:** You must have Docker installed on your machine.
 
 To try out this demo, first build the images:
 
@@ -46,6 +50,8 @@ You should see output like this, which proves that the application container has
 
 ## Cleanup
 
+To stop and remove the containers, and remove the network:
+
 ```bash
 docker stop address-api address-db
 
@@ -56,6 +62,8 @@ docker network rm address-app
 
 ## License
 
-MIT
+[MIT][license]
 
 [alpine]: https://alpinelinux.org/
+[bridge]: https://docs.docker.com/network/bridge/
+[license]: LICENSE
