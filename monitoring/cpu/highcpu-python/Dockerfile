@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.6-alpine
+FROM docker.io/library/python:3.11-alpine
 
 COPY . .
 
