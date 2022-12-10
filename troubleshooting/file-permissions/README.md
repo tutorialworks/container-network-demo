@@ -2,7 +2,13 @@
 
 This demo uses a fake web app called **Firebox** (sorry, Dropbox!) that allows you to upload files. The web app is written in Python using the Flask framework and runs in a Docker container.
 
+_As soon as the Firebox app was deployed in production, the devs cracked open a beer and began to celebrate. But quickly the app's users began to complain that they were unable to upload files._
+
+_At first, the dev team thought it was just a minor bug that could be fixed quickly. But, as more and more users reported the same issue, it became clear that there was something much more serious going on...._
+
 ## To run
+
+Let's build and run the Firebox app:
 
 ```shell
 docker build -t file-permissions .
@@ -114,12 +120,26 @@ drwxr-xr-x    1 root     root            14 Dec 10 16:31 ..
 -rw-r--r--    1 filebox  apps       2036567 Dec 10 16:32 henlobird.jpeg
 ```
 
+## Solution
+
+We found the cause of the problem. The app was trying to write to a folder that was owned by the `root` user. But the container was running as user `filebox`, and this user didn't have permission to write to the folder. 
+
+So, we fixed the problem by correcting the permissions of the folder in the _Dockerfile_.
+
+> **Note**
+> It's good security practice to run your container as a non-root user. But when you do, you will often encounter some annoying permissions issues! So it's important to know how to debug these issues.
+
 ## Wrapping up
 
 In this demo, we saw how to debug a file permissions issue in a container. 
 
-We saw that the problem was that the app was trying to write to a folder that was owned by the `root` user, and that the app's user (`filebox`) didn't have permission to write to the folder. We fixed the problem by changing the permissions of the folder in the _Dockerfile_.
+Cool troubleshooting tools we used today:
 
-It's good security practice to run your container as a non-root user. But if you do, you can encounter some annoying permissions issues! So it's important to know how to debug these issues.
-
+- `docker ps` to see all containers and their IDs
+- `docker logs <container-id>` to see the logs
+- `docker exec -it <container-id> sh` to start a shell inside the container
+- `ls -al` to list the contents of a folder and show the permissions
+- `whoami` to see which user you're running as
+- `id <username>` to see the user's UID and group
+- `chown -R <username>:<group> <folder>` to change the owner and group of a folder
 
