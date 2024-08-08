@@ -1,4 +1,4 @@
-FROM docker.io/library/postgres:15.1
+FROM docker.io/library/postgres:16.4
 
 # Note that we're 'hard-coding' the username, password,
 # and database name here.
