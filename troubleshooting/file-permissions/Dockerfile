@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.11-alpine
+FROM docker.io/library/python:3.13-alpine
 
 # Create a non-root user and group to run the app
 RUN addgroup -S apps && \
